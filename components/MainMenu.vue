@@ -5,6 +5,9 @@ const globalSettingsStore = useGlobalSettingsStore();
 
 const colorMode = useColorMode();
 
+const config = useRuntimeConfig();
+const API_URL = config.public.NUXT_PUBLIC_STRAPI_URL;
+
 const icons = {
   system: "mdi:monitor",
   dark: "mdi:moon-and-stars",
@@ -41,7 +44,11 @@ onMounted(async () => {
     <USlideover v-model="isOpen" :ui="{ base: 'overflow-auto' }">
       <UCard class="flex flex-col flex-1" :ui="{ body: { base: 'flex-1' } }">
         <template #header>
-          <div class="flex justify-between items-center">
+          <div class="flex justify-between items-center gap-4">
+            <NuxtImg
+              :src="`${API_URL}${globalSettingsStore.globalSettings.logo?.url}`"
+              class="size-12 rounded"
+            />
             <h2 class="text-xl font-bold">
               {{
                 globalSettingsStore.globalSettings.configurator_name ||

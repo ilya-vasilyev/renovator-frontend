@@ -1,0 +1,34 @@
+{
+  "name": "renovator-nuxt",
+  "version": "1.0.0",
+  "description": "A frontend for Renovator - a simple configurator for renovation projects",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "start": "node .output/server/index.mjs"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@nuxt/image": "^1.8.0",
+    "@nuxt/ui": "^2.18.5",
+    "@nuxtjs/google-fonts": "^3.2.0",
+    "@pinia/nuxt": "^0.5.4",
+    "@types/dompurify": "^3.0.5",
+    "@types/markdown-it": "^14.1.2",
+    "@types/qs": "^6.9.16",
+    "@vueuse/nuxt": "^10.11.1",
+    "js-base64": "^3.7.7",
+    "nuxt": "^3.13.2",
+    "pinia": "^2.2.2",
+    "vue": "^3.5.6",
+    "vue-router": "^4.4.5",
+    "@tailwindcss/typography": "^0.5.15",
+    "dompurify": "^3.1.7",
+    "markdown-it": "^14.1.0"
+  }
+}

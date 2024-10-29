@@ -1,5 +1,8 @@
 export interface GlobalSettings {
   configurator_name: string;
+  logo: {
+    url?: string;
+  };
   primary_color_dark: string;
   primary_color_light: string;
   gray_tone_dark: string;
@@ -18,7 +21,7 @@ export const useGlobalSettingsStore = defineStore("globalSettingsStore", () => {
   async function fetchGlobalSettings() {
     isFetching.value = true;
     const { data, error } = await useFetch<{ data: GlobalSettings }>(
-      `${API_URL}/api/global`
+      `${API_URL}/api/global?populate=*`
     );
     if (error.value) {
       console.error("Failed to fetch global settings", error);

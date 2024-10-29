@@ -8,6 +8,9 @@ const savedUrlSore = useSavedUrl();
 const metricsStore = useMetrics();
 const tabNavigationStore = useTabNavigation();
 
+const config = useRuntimeConfig();
+const API_URL = config.public.NUXT_PUBLIC_STRAPI_URL;
+
 useHead({
   title:
     projectStore.activeProject?.name ||
@@ -108,13 +111,19 @@ const debouncedLoadingError = refDebounced(isActiveProject, 1000);
                 v-if="tabNavigationStore.selectedTabItem?.showProjectName"
                 class="my-8 flex justify-between gap-4"
               >
-                <div class="w-full">
-                  <h2 class="text-lg font-bold">
-                    {{ projectStore.activeProject?.name }}
-                  </h2>
-                  <span class="text-xs opacity-50 leading-tight">
-                    {{ projectStore.activeProject?.description }}
-                  </span>
+                <div class="w-full flex justify-start items-center gap-4">
+                  <NuxtImg
+                    :src="`${API_URL}${globalSettingsStore.globalSettings.logo?.url}`"
+                    class="size-12 rounded"
+                  />
+                  <div>
+                    <h2 class="text-lg font-bold">
+                      {{ projectStore.activeProject?.name }}
+                    </h2>
+                    <span class="text-xs opacity-50 leading-tight">
+                      {{ projectStore.activeProject?.description }}
+                    </span>
+                  </div>
                 </div>
               </section>
             </Transition>

@@ -43,12 +43,13 @@ export const useControlsAndOptions = defineStore(
               const nodeId = sketchfab.nodesByName.value[geometryName];
               if (option.id === control.options[0].id) {
                 sketchfab.show(nodeId);
-                runMaterialAssignments(option);
               } else {
                 sketchfab.hide(nodeId);
               }
             });
           }
+          if (option.id === control.options[0].id)
+            runMaterialAssignments(option);
         });
         // reset sub options to nothing
         resetSubOptions(control.id);

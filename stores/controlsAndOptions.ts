@@ -81,7 +81,6 @@ export const useControlsAndOptions = defineStore(
             const nodeId = sketchfab.nodesByName.value[geometryName];
             if (option.id === optionId) {
               sketchfab.show(nodeId);
-              runMaterialAssignments(option);
             } else {
               sketchfab.hide(nodeId);
             }

@@ -87,6 +87,7 @@ export const useControlsAndOptions = defineStore(
             }
           });
         }
+        if (option.id === optionId) runMaterialAssignments(option);
       });
 
       resetSubOptions(controlId);
@@ -158,12 +159,12 @@ export const useControlsAndOptions = defineStore(
                 const nodeId = sketchfab.nodesByName.value[geometryName];
                 if (subOption.id === subOptionId) {
                   sketchfab.show(nodeId);
-                  runMaterialAssignments(subOption);
                 } else {
                   sketchfab.hide(nodeId);
                 }
               });
             }
+            if (subOption.id === subOptionId) runMaterialAssignments(subOption);
           });
         }
       });

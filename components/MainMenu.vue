@@ -5,9 +5,6 @@ const globalSettingsStore = useGlobalSettingsStore();
 
 const colorMode = useColorMode();
 
-const config = useRuntimeConfig();
-const API_URL = config.public.NUXT_PUBLIC_STRAPI_URL;
-
 const icons = {
   system: "mdi:monitor",
   dark: "mdi:moon-and-stars",
@@ -46,7 +43,7 @@ onMounted(async () => {
         <template #header>
           <div class="flex justify-between items-center gap-4">
             <NuxtImg
-              :src="`${API_URL}${globalSettingsStore.globalSettings.logo?.url}`"
+              :src="globalSettingsStore.globalSettings.logo?.url"
               class="size-12 rounded"
             />
             <h2 class="text-xl font-bold">

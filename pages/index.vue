@@ -7,9 +7,6 @@ useHead({
 const projectStore = useProjectStore();
 const globalSettingsStore = useGlobalSettingsStore();
 
-const config = useRuntimeConfig();
-const API_URL = config.public.NUXT_PUBLIC_STRAPI_URL;
-
 onMounted(async () => {
   projectStore.resetActiveProject();
 });
@@ -36,7 +33,7 @@ const sortedProjects = computed(() =>
   <div v-else class="max-w-4xl mx-auto p-4">
     <div class="flex gap-4 justify-start items-center mb-4 pr-8">
       <NuxtImg
-        :src="`${API_URL}${globalSettingsStore.globalSettings.logo?.url}`"
+        :src="globalSettingsStore.globalSettings.logo?.url"
         class="size-12 rounded"
       />
       <h1 class="text-2xl font-bold">

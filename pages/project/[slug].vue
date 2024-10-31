@@ -8,9 +8,6 @@ const savedUrlSore = useSavedUrl();
 const metricsStore = useMetrics();
 const tabNavigationStore = useTabNavigation();
 
-const config = useRuntimeConfig();
-const API_URL = config.public.NUXT_PUBLIC_STRAPI_URL;
-
 useHead({
   title:
     projectStore.activeProject?.name ||
@@ -113,7 +110,7 @@ const debouncedLoadingError = refDebounced(isActiveProject, 1000);
               >
                 <div class="w-full flex justify-start items-center gap-4">
                   <NuxtImg
-                    :src="`${API_URL}${globalSettingsStore.globalSettings.logo?.url}`"
+                    :src="globalSettingsStore.globalSettings.logo?.url"
                     class="size-12 rounded"
                   />
                   <div>

@@ -1,3 +1,5 @@
+import { promiseTimeout } from "@vueuse/core";
+
 export interface ControlState {
   selectedOption: number;
   selectedSubOptions: Record<number, number>;
@@ -8,6 +10,7 @@ export interface Control {
   type: "buttons" | "select" | "radio";
   options: Option[];
   belongs_to_group: string | null;
+  camera_view: CameraView | null;
 }
 export interface Option {
   id: number;
@@ -83,7 +86,7 @@ export const useControlsAndOptions = defineStore(
       // find control
       const control = getControlById(controlId);
       // hide all geometries, show only selected option
-      control?.options.forEach((option) => {
+      control?.options.forEach(async (option) => {
         if (option.geometry_name) {
           // split and process multiple geometries
           const geometryNames = option.geometry_name.split("\n");
@@ -96,7 +99,15 @@ export const useControlsAndOptions = defineStore(
             }
           });
         }
-        if (option.id === optionId) runMaterialAssignments(option);
+        if (option.id === optionId) {
+          runMaterialAssignments(option);
+          await promiseTimeout(10);
+          if (control?.camera_view) {
+            sketchfab.setCameraView(control.camera_view);
+          } else {
+            sketchfab.reapplyCameraView();
+          }
+        }
       });
 
       resetSubOptions(controlId);
@@ -160,7 +171,7 @@ export const useControlsAndOptions = defineStore(
       // hide  geometry for all other sub options
       selectedOption?.controls?.forEach((subControl) => {
         if (subControl.id === subControlId) {
-          subControl.options.forEach((subOption) => {
+          subControl.options.forEach(async (subOption) => {
             if (subOption.geometry_name) {
               // split and process multiple geometries
               const geometryNames = subOption.geometry_name.split("\n");
@@ -173,7 +184,15 @@ export const useControlsAndOptions = defineStore(
                 }
               });
             }
-            if (subOption.id === subOptionId) runMaterialAssignments(subOption);
+            if (subOption.id === subOptionId) {
+              runMaterialAssignments(subOption);
+              await promiseTimeout(10);
+              if (control?.camera_view) {
+                sketchfab.setCameraView(control.camera_view);
+              } else {
+                sketchfab.reapplyCameraView();
+              }
+            }
           });
         }
       });

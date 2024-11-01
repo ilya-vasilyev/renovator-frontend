@@ -176,6 +176,21 @@ const isActiveProject = computed(() => projectStore.activeProject?.id);
                 projectStore.activeProject?.sketchfab_id
               }}</pre>
               <UDivider />
+
+              <p>
+                <small><b>Camera view</b></small>
+                <UButton
+                  size="xs"
+                  variant="ghost"
+                  @click="sketchfab.getCurrentCameraView"
+                >
+                  get
+                </UButton>
+              </p>
+
+              <pre class="text-xs">{{ sketchfab.cameraView?.value }}</pre>
+
+              <UDivider />
               <p>
                 <small><b>State:</b></small>
               </p>

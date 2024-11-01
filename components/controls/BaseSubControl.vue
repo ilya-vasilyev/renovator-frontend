@@ -116,6 +116,7 @@ const focusedMetric = computed(
       :disabled="isNodeListReady === false"
       :loading="isNodeListReady === false"
       @change="handleSelectSubOption($event)"
+      class="radio-wrapper"
     >
       <template #label="{ option }">
         <div class="flex items-center gap-2 select-none">

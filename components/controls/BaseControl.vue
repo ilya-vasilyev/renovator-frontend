@@ -61,6 +61,7 @@ const focusedMetric = computed(
           class="min-w-16 justify-center py-3"
           @click="handleSelectOption(option.id)"
         >
+          <UAvatar v-if="option.image" :src="option.image.formats?.small?.url" size="2xs" />
           {{ option.name }}
         </UButton>
       </div>

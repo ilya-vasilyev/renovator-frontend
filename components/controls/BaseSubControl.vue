@@ -73,7 +73,11 @@ const focusedMetric = computed(
         class="min-w-16 justify-center py-3"
         @click="handleSelectSubOption(subOption.id)"
       >
-      <UAvatar v-if="subOption.image" :src="subOption.image.formats?.small?.url" size="lg" />
+        <UAvatar
+          v-if="subOption.image"
+          :src="subOption.image.formats?.small?.url"
+          size="lg"
+        />
         {{ subOption.name }}
       </UButton>
     </div>
@@ -92,7 +96,11 @@ const focusedMetric = computed(
     >
       <template #option="{ option }">
         <div class="flex items-center space-x-2">
-          <UAvatar v-if="option?.image" :src="option.image.formats?.small?.url" size="lg" />
+          <UAvatar
+            v-if="option?.image"
+            :src="option.image.formats?.small?.url"
+            size="lg"
+          />
           <span>{{ option.name }}</span>
         </div>
       </template>
@@ -111,22 +119,36 @@ const focusedMetric = computed(
     >
       <template #label="{ option }">
         <div class="flex items-center gap-2 pb-2 select-none">
-          <UAvatar v-if="option.image" :src="option.image.formats?.small?.url" size="lg" />
+          <UAvatar
+            v-if="option.image"
+            :src="option.image.formats?.small?.url"
+            size="lg"
+          />
           <span>{{ option.label }}</span>
         </div>
       </template>
     </URadioGroup>
 
     <!-- Gallery -->
-    <div v-else-if="props.subControl.options.some(option => option.image)" class="gallery mt-4" >
-        <h4 class="font-bold mb-2">Preview Images</h4>
-        <div class="flex flex-wrap gap-4">
-          <div v-for="option in props.subControl.options" :key="option.id" class="w-32 h-32">
-            <img v-if="option.image" :src="option.image?.formats.small.url" :alt="option.name" class="w-full h-full object-cover rounded-lg" />
-            <p class="text-center mt-1 text-sm">{{ option.name }}</p>
-          </div>
+    <div v-else-if="props.subControl.type === 'gallery'" class="mt-4">
+      <h4 class="mb-2">{{ selectedSubOption?.name }}</h4>
+      <div class="grid grid-cols-3 gap-3">
+        <div
+          v-for="option in props.subControl.options"
+          :key="option.id"
+          @click="handleSelectSubOption(option.id)"
+          class="aspect-[1/1] rounded-lg overflow-hidden cursor-pointer"
+          :class="{ 'ring-4 ring-primary': selectedSubOptionId === option.id }"
+        >
+          <img
+            v-if="option.image"
+            :src="option.image?.formats.small.url"
+            :alt="option.name"
+            class="w-full h-full object-cover"
+          />
         </div>
       </div>
+    </div>
 
     <!-- No type -->
     <UAlert

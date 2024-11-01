@@ -16,6 +16,15 @@ export interface Option {
   material_assignments: Record<string, string>;
   metrics: Record<string, number>;
   controls?: Control[];
+  image?: {
+    id: string;
+    url: string;
+    formats: {
+      small: {
+        url: string;
+      }
+    }
+  };
 }
 
 export const useControlsAndOptions = defineStore(

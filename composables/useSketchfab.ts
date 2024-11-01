@@ -1,3 +1,5 @@
+import { promiseTimeout } from "@vueuse/core";
+
 declare global {
   interface Window {
     Sketchfab: any;
@@ -28,8 +30,10 @@ interface SketchfabViewerApi {
   setCameraLookAt: (
     position: number[],
     target: number[],
-    duration: number
+    duration: number,
+    callback?: () => void
   ) => void;
+  setCameraEasing: (easing: string) => void;
 }
 export type Node = {
   id: number;
@@ -245,13 +249,14 @@ export const useSketchfab = () => {
     target: [0, 0, 0],
   });
 
+  api.value?.setCameraEasing("easeInOutCubic");
+
   function getCurrentCameraView() {
     api.value?.getCameraLookAt((err, camera) => {
       if (err) {
         console.error("Failed to get camera look at", err);
       } else {
         cameraView.value = camera;
-        console.log("Camera look at", camera);
       }
     });
   }
@@ -261,7 +266,15 @@ export const useSketchfab = () => {
     api.value?.setCameraLookAt(
       [...cameraView.value.position],
       [...cameraView.value.target],
-      0.5
+      0.5,
+      async () => {
+        await promiseTimeout(500);
+        api.value?.setCameraLookAt(
+          [...cameraView.value.position],
+          [...cameraView.value.target],
+          0
+        );
+      }
     );
   }
 
@@ -271,7 +284,6 @@ export const useSketchfab = () => {
         console.error("Failed to get camera look at", err);
       } else {
         api.value?.setCameraLookAt(camera.position, camera.target, 0);
-        console.log("Camera look at", camera);
       }
     });
   }

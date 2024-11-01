@@ -61,7 +61,7 @@ const focusedMetric = computed(
           class="min-w-16 justify-center py-3"
           @click="handleSelectOption(option.id)"
         >
-          <UAvatar v-if="option.image" :src="option.image.formats?.small?.url" size="2xs" />
+          <UAvatar v-if="option.image" :src="option.image.formats?.small?.url" size="lg" />
           {{ option.name }}
         </UButton>
       </div>
@@ -70,7 +70,7 @@ const focusedMetric = computed(
       <USelectMenu
         v-else-if="props.control.type === 'select'"
         v-model="selectedOption"
-        size="lg"
+        size="xl"
         color="primary"
         :options="props.control.options"
         option-attribute="name"
@@ -79,11 +79,11 @@ const focusedMetric = computed(
         @change="handleSelectOption($event.id)"
       >
       <template #leading>
-      <UAvatar v-if="selectedOption?.image" :src="selectedOption.image.formats.small.url" size="2xs" />
+      <UAvatar v-if="selectedOption?.image" :src="selectedOption.image.formats.small.url" size="lg" />
       </template>
       <template #option="{ option }">
         <div class="flex items-center space-x-2">
-          <UAvatar v-if="option?.image" :src="option.image.formats?.small?.url" size="2xs" />
+          <UAvatar v-if="option?.image" :src="option.image.formats?.small?.url" size="lg" />
           <span>{{ option.name }}</span>
         </div>
       </template>
@@ -99,9 +99,13 @@ const focusedMetric = computed(
         :disabled="isNodeListReady === false"
         :loading="isNodeListReady === false"
         @change="handleSelectOption($event)"
-      >
+        class="radio-wrapper"
+        >
         <template #label="{ option }">
-          <p class="pb-2 select-none">{{ option.label }}</p>
+          <div class="flex items-center gap-2 pb-2 select-none">
+            <UAvatar v-if="option.image" :src="option.image.formats?.small?.url" size="lg" />
+            <span>{{ option.label }}</span>
+          </div>
         </template>
       </URadioGroup>
 
@@ -141,3 +145,9 @@ const focusedMetric = computed(
     </div>
   </div>
 </template>
+
+<style>
+.radio-wrapper fieldset div {
+  align-items: center;
+}
+</style>

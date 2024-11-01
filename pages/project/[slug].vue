@@ -53,8 +53,6 @@ const windowSize = useWindowSize();
 const isVerticalScreen = computed(
   () => windowSize.height.value > windowSize.width.value
 );
-
-const isActiveProject = computed(() => projectStore.activeProject?.id);
 </script>
 
 <template>

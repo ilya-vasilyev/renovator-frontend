@@ -88,7 +88,17 @@ const focusedMetric = computed(
       :disabled="isNodeListReady === false"
       :loading="isNodeListReady === false"
       @change="handleSelectSubOption($event.id)"
-    />
+    >
+    <template #leading>
+      <UAvatar v-if="selectedSubOption?.image" :src="selectedSubOption.image.formats.small.url" size="2xs" />
+      </template>
+      <template #option="{ option }">
+        <div class="flex items-center space-x-2">
+          <UAvatar v-if="option?.image" :src="option.image.formats?.small?.url" size="2xs" />
+          <span>{{ option.name }}</span>
+        </div>
+      </template>
+    </USelectMenu>
 
     <!-- Radio -->
     <URadioGroup
@@ -105,6 +115,17 @@ const focusedMetric = computed(
         <p class="pb-2 select-none">{{ option.label }}</p>
       </template>
     </URadioGroup>
+
+    <!-- Gallery -->
+    <div v-else-if="props.subControl.options.some(option => option.image)" class="gallery mt-4" >
+        <h4 class="font-bold mb-2">Preview Images</h4>
+        <div class="flex flex-wrap gap-4">
+          <div v-for="option in props.subControl.options" :key="option.id" class="w-32 h-32">
+            <img v-if="option.image" :src="option.image?.formats.small.url" :alt="option.name" class="w-full h-full object-cover rounded-lg" />
+            <p class="text-center mt-1 text-sm">{{ option.name }}</p>
+          </div>
+        </div>
+      </div>
 
     <!-- No type -->
     <UAlert

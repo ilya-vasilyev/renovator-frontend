@@ -58,7 +58,7 @@ export const useProjectStore = defineStore("projectStore", () => {
   async function fetchProjectBySlug(slug: string) {
     isFetching.value = true;
     const { data, error } = await useFetch<{ data: Project[] }>(
-      `${API_URL}/api/projects?filters[slug][$eq]=${slug}&populate=controls.options.controls.options&populate=group_list`
+      `${API_URL}/api/projects?filters[slug][$eq]=${slug}&populate=controls.options.controls.options&populate=controls.options.image&populate=controls.options.controls.options.image&populate=group_list`
     );
     if (error.value) {
       console.error("Failed to fetch project", error);

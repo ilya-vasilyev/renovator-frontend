@@ -61,7 +61,11 @@ const focusedMetric = computed(
           class="min-w-16 justify-center py-3"
           @click="handleSelectOption(option.id)"
         >
-          <UAvatar v-if="option.image" :src="option.image.formats?.small?.url" size="lg" />
+          <UAvatar
+            v-if="option.image"
+            :src="option.image.formats?.small?.url"
+            size="lg"
+          />
           {{ option.name }}
         </UButton>
       </div>
@@ -78,15 +82,23 @@ const focusedMetric = computed(
         :loading="isNodeListReady === false"
         @change="handleSelectOption($event.id)"
       >
-      <template #leading>
-      <UAvatar v-if="selectedOption?.image" :src="selectedOption.image.formats.small.url" size="lg" />
-      </template>
-      <template #option="{ option }">
-        <div class="flex items-center space-x-2">
-          <UAvatar v-if="option?.image" :src="option.image.formats?.small?.url" size="lg" />
-          <span>{{ option.name }}</span>
-        </div>
-      </template>
+        <template #leading>
+          <UAvatar
+            v-if="selectedOption?.image"
+            :src="selectedOption.image.formats.small.url"
+            size="lg"
+          />
+        </template>
+        <template #option="{ option }">
+          <div class="flex items-center space-x-2">
+            <UAvatar
+              v-if="option?.image"
+              :src="option.image.formats?.small?.url"
+              size="lg"
+            />
+            <span>{{ option.name }}</span>
+          </div>
+        </template>
       </USelectMenu>
 
       <!-- Radio -->
@@ -100,22 +112,36 @@ const focusedMetric = computed(
         :loading="isNodeListReady === false"
         @change="handleSelectOption($event)"
         class="radio-wrapper"
-        >
+      >
         <template #label="{ option }">
           <div class="flex items-center gap-2 pb-2 select-none">
-            <UAvatar v-if="option.image" :src="option.image.formats?.small?.url" size="lg" />
+            <UAvatar
+              v-if="option.image"
+              :src="option.image.formats?.small?.url"
+              size="lg"
+            />
             <span>{{ option.label }}</span>
           </div>
         </template>
       </URadioGroup>
 
       <!-- Gallery -->
-      <div v-else-if="props.control.type === 'gallery'" class="gallery mt-4">
-        <h4 class="font-bold mb-2">Preview Images</h4>
-        <div class="flex flex-wrap gap-4">
-          <div v-for="option in props.control.options" :key="option.id" class="w-32 h-32">
-            <img v-if="option.image" :src="option.image?.formats.small.url" :alt="option.name" class="w-full h-full object-cover rounded-lg" />
-            <p class="text-center mt-1 text-sm">{{ option.name }}</p>
+      <div v-else-if="props.control.type === 'gallery'" class="mt-4">
+        <h4 class="mb-2">{{ selectedOption?.name }}</h4>
+        <div class="grid grid-cols-3 gap-3">
+          <div
+            v-for="option in props.control.options"
+            :key="option.id"
+            @click="handleSelectOption(option.id)"
+            class="aspect-[1/1] rounded-lg overflow-hidden cursor-pointer"
+            :class="{ 'ring-4 ring-primary': selectedOptionId === option.id }"
+          >
+            <img
+              v-if="option.image"
+              :src="option.image?.formats.small.url"
+              :alt="option.name"
+              class="w-full h-full object-cover"
+            />
           </div>
         </div>
       </div>

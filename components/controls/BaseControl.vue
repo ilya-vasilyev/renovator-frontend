@@ -107,7 +107,7 @@ const focusedMetric = computed(
         class="radio-wrapper"
       >
         <template #label="{ option }">
-          <div class="flex items-center gap-2 pb-2 select-none">
+          <div class="flex items-center gap-2 select-none">
             <UAvatar
               v-if="option.image"
               :src="option.image.formats?.thumbnail?.url"

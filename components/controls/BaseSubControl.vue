@@ -73,7 +73,7 @@ const focusedMetric = computed(
         class="min-w-16 justify-center py-3"
         @click="handleSelectSubOption(subOption.id)"
       >
-      <UAvatar v-if="subOption.image" :src="subOption.image.formats?.small?.url" size="2xs" />
+      <UAvatar v-if="subOption.image" :src="subOption.image.formats?.small?.url" size="lg" />
         {{ subOption.name }}
       </UButton>
     </div>
@@ -82,7 +82,7 @@ const focusedMetric = computed(
     <USelectMenu
       v-else-if="props.subControl.type === 'select'"
       v-model="selectedSubOption"
-      size="lg"
+      size="xl"
       color="primary"
       :options="props.subControl.options"
       option-attribute="name"
@@ -90,12 +90,9 @@ const focusedMetric = computed(
       :loading="isNodeListReady === false"
       @change="handleSelectSubOption($event.id)"
     >
-    <template #leading>
-      <UAvatar v-if="selectedSubOption?.image" :src="selectedSubOption.image.formats.small.url" size="2xs" />
-      </template>
       <template #option="{ option }">
         <div class="flex items-center space-x-2">
-          <UAvatar v-if="option?.image" :src="option.image.formats?.small?.url" size="2xs" />
+          <UAvatar v-if="option?.image" :src="option.image.formats?.small?.url" size="lg" />
           <span>{{ option.name }}</span>
         </div>
       </template>
@@ -113,7 +110,10 @@ const focusedMetric = computed(
       @change="handleSelectSubOption($event)"
     >
       <template #label="{ option }">
-        <p class="pb-2 select-none">{{ option.label }}</p>
+        <div class="flex items-center gap-2 pb-2 select-none">
+          <UAvatar v-if="option.image" :src="option.image.formats?.small?.url" size="lg" />
+          <span>{{ option.label }}</span>
+        </div>
       </template>
     </URadioGroup>
 

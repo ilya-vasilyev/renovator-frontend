@@ -4,6 +4,17 @@ const globalSettingsStore = useGlobalSettingsStore();
 
 onMounted(async () => {
   projectStore.resetActiveProject();
+
+  useHead({
+    title:
+      globalSettingsStore.globalSettings.configurator_name || "Configurator",
+    meta: [
+      {
+        name: "description",
+        content: "",
+      },
+    ],
+  });
 });
 
 const sortedProjects = computed(() =>

@@ -82,13 +82,6 @@ const focusedMetric = computed(
         :loading="isNodeListReady === false"
         @change="handleSelectOption($event.id)"
       >
-        <template #leading>
-          <UAvatar
-            v-if="selectedOption?.image"
-            :src="selectedOption.image.formats.thumbnail.url"
-            size="lg"
-          />
-        </template>
         <template #option="{ option }">
           <div class="flex items-center space-x-2">
             <UAvatar

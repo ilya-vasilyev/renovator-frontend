@@ -63,7 +63,7 @@ const focusedMetric = computed(
         >
           <UAvatar
             v-if="option.image"
-            :src="option.image.formats?.small?.url"
+            :src="option.image.formats?.thumbnail?.url"
             size="lg"
           />
           {{ option.name }}
@@ -85,7 +85,7 @@ const focusedMetric = computed(
         <template #leading>
           <UAvatar
             v-if="selectedOption?.image"
-            :src="selectedOption.image.formats.small.url"
+            :src="selectedOption.image.formats.thumbnail.url"
             size="lg"
           />
         </template>
@@ -93,7 +93,7 @@ const focusedMetric = computed(
           <div class="flex items-center space-x-2">
             <UAvatar
               v-if="option?.image"
-              :src="option.image.formats?.small?.url"
+              :src="option.image.formats?.thumbnail?.url"
               size="lg"
             />
             <span>{{ option.name }}</span>
@@ -117,7 +117,7 @@ const focusedMetric = computed(
           <div class="flex items-center gap-2 pb-2 select-none">
             <UAvatar
               v-if="option.image"
-              :src="option.image.formats?.small?.url"
+              :src="option.image.formats?.thumbnail?.url"
               size="lg"
             />
             <span>{{ option.label }}</span>
@@ -138,7 +138,7 @@ const focusedMetric = computed(
           >
             <img
               v-if="option.image"
-              :src="option.image?.formats.small.url"
+              :src="option.image?.formats.thumbnail.url"
               :alt="option.name"
               class="w-full h-full object-cover"
             />

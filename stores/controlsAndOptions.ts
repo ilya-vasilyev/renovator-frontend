@@ -23,7 +23,7 @@ export interface Option {
     id: string;
     url: string;
     formats: {
-      small: {
+      thumbnail: {
         url: string;
       }
     }

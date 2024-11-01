@@ -101,7 +101,7 @@ export const useControlsAndOptions = defineStore(
         }
         if (option.id === optionId) {
           runMaterialAssignments(option);
-          await promiseTimeout(10);
+          await promiseTimeout(100);
           if (control?.camera_view) {
             sketchfab.setCameraView(control.camera_view);
           } else {
@@ -186,7 +186,7 @@ export const useControlsAndOptions = defineStore(
             }
             if (subOption.id === subOptionId) {
               runMaterialAssignments(subOption);
-              await promiseTimeout(10);
+              await promiseTimeout(100);
               if (control?.camera_view) {
                 sketchfab.setCameraView(control.camera_view);
               } else {

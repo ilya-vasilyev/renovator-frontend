@@ -261,7 +261,7 @@ export const useSketchfab = () => {
     api.value?.setCameraLookAt(
       [...cameraView.value.position],
       [...cameraView.value.target],
-      0.75
+      0.5
     );
   }
 

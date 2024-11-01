@@ -8,19 +8,6 @@ const savedUrlSore = useSavedUrl();
 const metricsStore = useMetrics();
 const tabNavigationStore = useTabNavigation();
 
-useHead({
-  title:
-    projectStore.activeProject?.name ||
-    globalSettingsStore.globalSettings.configurator_name ||
-    "Configurator",
-  meta: [
-    {
-      name: "description",
-      content: projectStore.activeProject?.description || "",
-    },
-  ],
-});
-
 const controls = computed(() => projectStore.activeProject?.controls || []);
 const groups = computed(() => projectStore.activeProject?.group_list || []);
 
@@ -33,6 +20,19 @@ onMounted(async () => {
   metricsStore.selectFocusedMetric(
     metricsStore.metricsBreakdown[0]?.metricName
   );
+
+  useHead({
+    title:
+      projectStore.activeProject?.name ||
+      globalSettingsStore.globalSettings.configurator_name ||
+      "Configurator",
+    meta: [
+      {
+        name: "description",
+        content: projectStore.activeProject?.description || "",
+      },
+    ],
+  });
 });
 
 watch(sketchfab.isNodeListReady, async () => {
@@ -49,20 +49,12 @@ watch(sketchfab.isNodeListReady, async () => {
   }
 });
 
-const totalMetricAsNumber = computed(() =>
-  Math.round(metricsStore.focusedMetric?.metricTotalValue || 0)
-);
-// const animatedTotalMetric = useTransition(totalMetricAsNumber, {
-//   duration: 300,
-// });
-
 const windowSize = useWindowSize();
 const isVerticalScreen = computed(
   () => windowSize.height.value > windowSize.width.value
 );
 
 const isActiveProject = computed(() => projectStore.activeProject?.id);
-const debouncedLoadingError = refDebounced(isActiveProject, 1000);
 </script>
 
 <template>

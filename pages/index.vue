@@ -1,9 +1,4 @@
 <script setup lang="ts">
-useHead({
-  title: "Renovation Configurator",
-  meta: [{ name: "description", content: "My amazing site." }],
-});
-
 const projectStore = useProjectStore();
 const globalSettingsStore = useGlobalSettingsStore();
 

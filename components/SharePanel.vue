@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const controlsAndOptionsStore = useControlsAndOptions();
 const savedUrlSore = useSavedUrl();
 const { copy, copied, isSupported } = useClipboard();

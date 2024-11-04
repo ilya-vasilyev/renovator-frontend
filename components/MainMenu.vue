@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const isOpen = ref(false);
 const projectStore = useProjectStore();
 const globalSettingsStore = useGlobalSettingsStore();
@@ -58,7 +58,7 @@ onMounted(async () => {
             <UButton
               icon="i-mdi-close"
               variant="ghost"
-              color="neutral"
+              color="gray"
               @click="isOpen = false"
             />
           </div>
@@ -73,12 +73,14 @@ onMounted(async () => {
               :options="['system', 'dark', 'light']"
             >
               <template #label>
-                <UIcon :name="icons[colorMode.preference]" />
+                <UIcon
+                  :name="icons[colorMode.preference as keyof typeof icons]"
+                />
                 <span class="capitalize">{{ colorMode.preference }}</span>
               </template>
 
               <template #option="{ option: mode }">
-                <UIcon :name="icons[mode]" />
+                <UIcon :name="icons[mode as keyof typeof icons]" />
                 <span class="capitalize">{{ mode }}</span>
               </template>
             </USelectMenu>

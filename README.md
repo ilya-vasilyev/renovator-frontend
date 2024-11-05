@@ -1,14 +1,14 @@
 # Renovator (Nuxt frontend)
 
-**`<IMG GOES HERE>`**
+![image](https://github.com/user-attachments/assets/de1ee0ad-031e-46a4-82ed-652a7bc61a79)
 
 An open-source web configurator tool for renovation projects.
 Developed by Estonian Academy of Arts (EKA).
 
 Consists of two parts:
 
-- Frontend (this repository)
-- Backend (**`<URL GOES HERE>`**)
+- **Frontend** _(this repository)_
+- [Backend](https://github.com/ilya-vasilyev/renovator-backend) 
 
 ### Tech stack
 
@@ -25,15 +25,15 @@ Deploy and run this project in production you can use static hosting platforms.
 
 Netlify:
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify-templates/next-netlify-starter)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/ilya-vasilyev/renovator-frontend)
 
 Vercel:
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fhello-world)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Filya-vasilyev%2Frenovator-frontend)
 
 Or deploy a full stack (frontend + backend) on Railway
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/ZweBXA)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/mNpqga)
 
 If you want to deploy it on your own hosting, build it as a simple static website (Nuxt in SPA mode) using `npm run build` and host the `dist` directory.
 

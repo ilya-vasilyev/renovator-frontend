@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const metricsStore = useMetrics();
 const tabNavigationStore = useTabNavigation();
 </script>

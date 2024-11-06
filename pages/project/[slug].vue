@@ -8,22 +8,6 @@ const savedUrlSore = useSavedUrl();
 const metricsStore = useMetrics();
 const tabNavigationStore = useTabNavigation();
 
-const config = useRuntimeConfig();
-const API_URL = config.public.NUXT_PUBLIC_STRAPI_URL;
-
-useHead({
-  title:
-    projectStore.activeProject?.name ||
-    globalSettingsStore.globalSettings.configurator_name ||
-    "Configurator",
-  meta: [
-    {
-      name: "description",
-      content: projectStore.activeProject?.description || "",
-    },
-  ],
-});
-
 const controls = computed(() => projectStore.activeProject?.controls || []);
 const groups = computed(() => projectStore.activeProject?.group_list || []);
 
@@ -36,6 +20,19 @@ onMounted(async () => {
   metricsStore.selectFocusedMetric(
     metricsStore.metricsBreakdown[0]?.metricName
   );
+
+  useHead({
+    title:
+      projectStore.activeProject?.name ||
+      globalSettingsStore.globalSettings.configurator_name ||
+      "Configurator",
+    meta: [
+      {
+        name: "description",
+        content: projectStore.activeProject?.description || "",
+      },
+    ],
+  });
 });
 
 watch(sketchfab.isNodeListReady, async () => {
@@ -52,20 +49,10 @@ watch(sketchfab.isNodeListReady, async () => {
   }
 });
 
-const totalMetricAsNumber = computed(() =>
-  Math.round(metricsStore.focusedMetric?.metricTotalValue || 0)
-);
-// const animatedTotalMetric = useTransition(totalMetricAsNumber, {
-//   duration: 300,
-// });
-
 const windowSize = useWindowSize();
 const isVerticalScreen = computed(
   () => windowSize.height.value > windowSize.width.value
 );
-
-const isActiveProject = computed(() => projectStore.activeProject?.id);
-const debouncedLoadingError = refDebounced(isActiveProject, 1000);
 </script>
 
 <template>
@@ -113,7 +100,7 @@ const debouncedLoadingError = refDebounced(isActiveProject, 1000);
               >
                 <div class="w-full flex justify-start items-center gap-4">
                   <NuxtImg
-                    :src="`${API_URL}${globalSettingsStore.globalSettings.logo?.url}`"
+                    :src="globalSettingsStore.globalSettings.logo?.url"
                     class="size-12 rounded"
                   />
                   <div>
@@ -186,6 +173,21 @@ const debouncedLoadingError = refDebounced(isActiveProject, 1000);
               <pre class="text-xs">{{
                 projectStore.activeProject?.sketchfab_id
               }}</pre>
+              <UDivider />
+
+              <p>
+                <small><b>Camera view</b></small>
+                <UButton
+                  size="xs"
+                  variant="ghost"
+                  @click="sketchfab.getCurrentCameraView"
+                >
+                  get
+                </UButton>
+              </p>
+
+              <pre class="text-xs">{{ sketchfab.cameraView?.value }}</pre>
+
               <UDivider />
               <p>
                 <small><b>State:</b></small>

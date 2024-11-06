@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const metricsStore = useMetrics();
 </script>
 
@@ -54,7 +54,7 @@ const metricsStore = useMetrics();
 
           <div
             v-for="line in item.metricLines"
-            :key="line"
+            :key="line.optionName"
             class="flex justify-between my-1 px-2"
           >
             <div>

@@ -23,6 +23,17 @@ watch(colorMode, setColors);
 onMounted(async () => {
   await globalSettingsStore.fetchGlobalSettings();
   setColors();
+
+  useHead({
+    title:
+      globalSettingsStore.globalSettings.configurator_name || "Configurator",
+    meta: [
+      {
+        name: "description",
+        content: "",
+      },
+    ],
+  });
 });
 
 const route = useRoute();

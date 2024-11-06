@@ -73,6 +73,11 @@ const focusedMetric = computed(
         class="min-w-16 justify-center py-3"
         @click="handleSelectSubOption(subOption.id)"
       >
+        <UAvatar
+          v-if="subOption.image"
+          :src="subOption.image.formats?.thumbnail?.url"
+          size="lg"
+        />
         {{ subOption.name }}
       </UButton>
     </div>
@@ -81,14 +86,25 @@ const focusedMetric = computed(
     <USelectMenu
       v-else-if="props.subControl.type === 'select'"
       v-model="selectedSubOption"
-      size="lg"
+      size="xl"
       color="primary"
       :options="props.subControl.options"
       option-attribute="name"
       :disabled="isNodeListReady === false"
       :loading="isNodeListReady === false"
       @change="handleSelectSubOption($event.id)"
-    />
+    >
+      <template #option="{ option }">
+        <div class="flex items-center space-x-2">
+          <UAvatar
+            v-if="option?.image"
+            :src="option.image.formats?.thumbnail?.url"
+            size="lg"
+          />
+          <span>{{ option.name }}</span>
+        </div>
+      </template>
+    </USelectMenu>
 
     <!-- Radio -->
     <URadioGroup
@@ -100,11 +116,40 @@ const focusedMetric = computed(
       :disabled="isNodeListReady === false"
       :loading="isNodeListReady === false"
       @change="handleSelectSubOption($event)"
+      class="radio-wrapper"
     >
       <template #label="{ option }">
-        <p class="pb-2 select-none">{{ option.label }}</p>
+        <div class="flex items-center gap-2 select-none">
+          <UAvatar
+            v-if="option.image"
+            :src="option.image.formats?.thumbnail?.url"
+            size="lg"
+          />
+          <span>{{ option.label }}</span>
+        </div>
       </template>
     </URadioGroup>
+
+    <!-- Gallery -->
+    <div v-else-if="props.subControl.type === 'gallery'" class="mt-4">
+      <h4 class="mb-2">{{ selectedSubOption?.name }}</h4>
+      <div class="grid grid-cols-3 gap-3">
+        <div
+          v-for="option in props.subControl.options"
+          :key="option.id"
+          @click="handleSelectSubOption(option.id)"
+          class="aspect-[1/1] rounded-lg overflow-hidden cursor-pointer"
+          :class="{ 'ring-4 ring-primary': selectedSubOptionId === option.id }"
+        >
+          <img
+            v-if="option.image"
+            :src="option.image?.formats.thumbnail.url"
+            :alt="option.name"
+            class="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+    </div>
 
     <!-- No type -->
     <UAlert

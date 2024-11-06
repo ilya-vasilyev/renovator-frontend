@@ -1,3 +1,5 @@
+import { promiseTimeout } from "@vueuse/core";
+
 declare global {
   interface Window {
     Sketchfab: any;
@@ -24,6 +26,14 @@ interface SketchfabViewerApi {
     materialId: any,
     callback: (err: Error) => void
   ) => void;
+  getCameraLookAt: (callback: (err: Error, camera: any) => void) => void;
+  setCameraLookAt: (
+    position: number[],
+    target: number[],
+    duration: number,
+    callback?: () => void
+  ) => void;
+  setCameraEasing: (easing: string) => void;
 }
 export type Node = {
   id: number;
@@ -40,6 +50,11 @@ export type Nodes = Record<
     children: Node[];
   }
 >;
+
+export type CameraView = {
+  position: [number, number, number];
+  target: [number, number, number];
+};
 
 // --------------------------------------------------
 
@@ -227,6 +242,52 @@ export const useSketchfab = () => {
     }
   }
 
+  // ========================== CAMERA =============================
+
+  const cameraView = ref<CameraView>({
+    position: [0, 0, 0],
+    target: [0, 0, 0],
+  });
+
+  api.value?.setCameraEasing("easeInOutCubic");
+
+  function getCurrentCameraView() {
+    api.value?.getCameraLookAt((err, camera) => {
+      if (err) {
+        console.error("Failed to get camera look at", err);
+      } else {
+        cameraView.value = camera;
+      }
+    });
+  }
+
+  function setCameraView(newCameraView: CameraView) {
+    cameraView.value = newCameraView;
+    api.value?.setCameraLookAt(
+      [...cameraView.value.position],
+      [...cameraView.value.target],
+      0.5,
+      async () => {
+        await promiseTimeout(500);
+        api.value?.setCameraLookAt(
+          [...cameraView.value.position],
+          [...cameraView.value.target],
+          0
+        );
+      }
+    );
+  }
+
+  function reapplyCameraView() {
+    api.value?.getCameraLookAt((err, camera) => {
+      if (err) {
+        console.error("Failed to get camera look at", err);
+      } else {
+        api.value?.setCameraLookAt(camera.position, camera.target, 0);
+      }
+    });
+  }
+
   return {
     loadModel,
     isApiLoaded,
@@ -245,5 +306,9 @@ export const useSketchfab = () => {
     getScreenshot,
     isAssigningMaterial,
     assignMaterialToNode,
+    cameraView,
+    getCurrentCameraView,
+    setCameraView,
+    reapplyCameraView,
   };
 };

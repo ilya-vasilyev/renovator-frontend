@@ -1,3 +1,5 @@
+import { promiseTimeout } from "@vueuse/core";
+
 export interface ControlState {
   selectedOption: number;
   selectedSubOptions: Record<number, number>;
@@ -8,6 +10,7 @@ export interface Control {
   type: "buttons" | "select" | "radio";
   options: Option[];
   belongs_to_group: string | null;
+  camera_view: CameraView | null;
 }
 export interface Option {
   id: number;
@@ -16,6 +19,15 @@ export interface Option {
   material_assignments: Record<string, string>;
   metrics: Record<string, number>;
   controls?: Control[];
+  image?: {
+    id: string;
+    url: string;
+    formats: {
+      thumbnail: {
+        url: string;
+      }
+    }
+  };
 }
 
 export const useControlsAndOptions = defineStore(
@@ -43,12 +55,13 @@ export const useControlsAndOptions = defineStore(
               const nodeId = sketchfab.nodesByName.value[geometryName];
               if (option.id === control.options[0].id) {
                 sketchfab.show(nodeId);
-                runMaterialAssignments(option);
               } else {
                 sketchfab.hide(nodeId);
               }
             });
           }
+          if (option.id === control.options[0].id)
+            runMaterialAssignments(option);
         });
         // reset sub options to nothing
         resetSubOptions(control.id);
@@ -73,7 +86,7 @@ export const useControlsAndOptions = defineStore(
       // find control
       const control = getControlById(controlId);
       // hide all geometries, show only selected option
-      control?.options.forEach((option) => {
+      control?.options.forEach(async (option) => {
         if (option.geometry_name) {
           // split and process multiple geometries
           const geometryNames = option.geometry_name.split("\n");
@@ -81,11 +94,19 @@ export const useControlsAndOptions = defineStore(
             const nodeId = sketchfab.nodesByName.value[geometryName];
             if (option.id === optionId) {
               sketchfab.show(nodeId);
-              runMaterialAssignments(option);
             } else {
               sketchfab.hide(nodeId);
             }
           });
+        }
+        if (option.id === optionId) {
+          runMaterialAssignments(option);
+          await promiseTimeout(100);
+          if (control?.camera_view) {
+            sketchfab.setCameraView(control.camera_view);
+          } else {
+            sketchfab.reapplyCameraView();
+          }
         }
       });
 
@@ -150,7 +171,7 @@ export const useControlsAndOptions = defineStore(
       // hide  geometry for all other sub options
       selectedOption?.controls?.forEach((subControl) => {
         if (subControl.id === subControlId) {
-          subControl.options.forEach((subOption) => {
+          subControl.options.forEach(async (subOption) => {
             if (subOption.geometry_name) {
               // split and process multiple geometries
               const geometryNames = subOption.geometry_name.split("\n");
@@ -158,11 +179,19 @@ export const useControlsAndOptions = defineStore(
                 const nodeId = sketchfab.nodesByName.value[geometryName];
                 if (subOption.id === subOptionId) {
                   sketchfab.show(nodeId);
-                  runMaterialAssignments(subOption);
                 } else {
                   sketchfab.hide(nodeId);
                 }
               });
+            }
+            if (subOption.id === subOptionId) {
+              runMaterialAssignments(subOption);
+              await promiseTimeout(100);
+              if (control?.camera_view) {
+                sketchfab.setCameraView(control.camera_view);
+              } else {
+                sketchfab.reapplyCameraView();
+              }
             }
           });
         }
